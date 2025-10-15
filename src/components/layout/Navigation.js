@@ -37,7 +37,7 @@ const Navigation = ({ scrollY, menuOpen, setMenuOpen }) => {
     >
       <div className="navigation-container">
         <div className="logo">
-          Mbaya.<span className="gradient-text">Portfolio</span>
+          James<span className="gradient-text">Mbaya</span>
         </div>
 
         {/* Desktop Navigation */}
