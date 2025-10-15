@@ -1,19 +1,44 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
-const Card = ({ 
-  children, 
-  className = '', 
+const Card = ({
+  children,
+  className = '',
   hover = true,
   gradient = false,
-  ...props 
+  ...props
 }) => {
-  const baseStyles = 'bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6';
-  const hoverStyles = hover ? 'hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20' : '';
-  const gradientStyles = gradient ? 'bg-gradient-to-br from-slate-800/50 to-purple-900/30' : '';
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-on-scroll', 'visible', 'animate-slideInFromBottom');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    const currentRef = cardRef.current;
+    if (currentRef) observer.observe(currentRef);
+
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+      observer.disconnect();
+    };
+  }, []);
+
+  const baseStyles = 'card glass rounded-2xl p-6';
+  const hoverStyles = hover ? 'hover:scale-105 transition-all duration-300 hover:shadow-blue-dark' : '';
+  const gradientStyles = gradient ? 'bg-gradient-blue' : '';
 
   return (
-    <div 
-      className={`${baseStyles} ${hoverStyles} ${gradientStyles} ${className}`}
+    <div
+      ref={cardRef}
+      className={`${baseStyles} ${hoverStyles} ${gradientStyles} animate-pulseGlow ${className}`}
       {...props}
     >
       {children}
