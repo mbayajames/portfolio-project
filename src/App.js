@@ -107,7 +107,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <Navigation scrollY={scrollY} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <Navigation scrollY={scrollY} menuOpen={menuOpen} setMenuOpen={setMenuOpen}  />
       <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       
       <main className="main-content">
@@ -123,9 +123,8 @@ function App() {
       
       <Footer />
       <ScrollToTop />
-      <ThemeToggle theme={theme} onThemeChange={handleThemeChange} />
       <Chatbot isOpen={chatOpen} onClose={() => setChatOpen(false)} /> {/* Updated prop names to match component */}
-      
+      <ThemeToggle theme={theme} onThemeChange={handleThemeChange} />
       {/* Floating Chatbot Toggle Button */}
       {!chatOpen && (
         <button
