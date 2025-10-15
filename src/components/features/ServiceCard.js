@@ -23,7 +23,7 @@ const ServiceCard = ({ service }) => {
     if (currentRef) observer.observe(currentRef);
 
     return () => {
-      if (currentRef) observer.unobserve(currentRef);
+      observer.disconnect();
     };
   }, []);
 
