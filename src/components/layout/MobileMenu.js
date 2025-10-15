@@ -1,21 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import '../../styles/MobileMenu.css';
 
 const MobileMenu = ({ menuOpen, setMenuOpen }) => {
+  const [shouldRender, setShouldRender] = useState(menuOpen);
+  const [animateOut, setAnimateOut] = useState(false);
+
   const navItems = ['Home', 'About', 'Services', 'Projects', 'Testimonials', 'Contact'];
 
-  if (!menuOpen) return null;
+  useEffect(() => {
+    if (menuOpen) {
+      setShouldRender(true);
+      setAnimateOut(false);
+    } else {
+      setAnimateOut(true);
+      const timer = setTimeout(() => setShouldRender(false), 300); // match CSS duration
+      return () => clearTimeout(timer);
+    }
+  }, [menuOpen]);
+
+  const handleNavClick = (item) => {
+    const element = document.getElementById(item.toLowerCase());
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setMenuOpen(false);
+  };
+
+  if (!shouldRender) return null;
 
   return (
-    <div className="fixed top-[72px] left-0 w-full bg-slate-900/95 backdrop-blur-lg px-6 py-4 space-y-4 z-40 md:hidden">
+    <div className={`mobile-menu ${animateOut ? 'animate-out' : ''}`}>
       {navItems.map((item) => (
-        <a
+        <button
           key={item}
-          href={`#${item.toLowerCase()}`}
-          onClick={() => setMenuOpen(false)}
-          className="block text-lg hover:text-cyan-400 transition-colors py-2"
+          onClick={() => handleNavClick(item)}
+          className="mobile-menu-button"
         >
           {item}
-        </a>
+        </button>
       ))}
     </div>
   );
